@@ -11,12 +11,15 @@ export const buscarPrecoMercadoLivre = async (produto) => {
                 ? `${item.installments.quantity}x de R$ ${item.installments.amount.toFixed(2)}`
                 : "";
 
+            // 🔥 Melhorando a qualidade da imagem
+            const imagemAltaQualidade = item.thumbnail.replace("I.jpg", "O.jpg");
+
             return {
                 nome: item.title,
                 preco: { avista: precoAVista, parcelado: precoParcelado },
                 loja: "Mercado Livre",
                 link: item.permalink,
-                imagem: item.thumbnail
+                imagem: imagemAltaQualidade
             };
         });
     } catch (error) {
