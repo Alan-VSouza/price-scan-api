@@ -3,15 +3,10 @@
     padding: 0;
 }
 
-a {
-    color: white;
-    text-decoration: none; 
-    transition: 0.3s;
-}
-
-a:hover {
-    opacity: 0.7;
-}
+html {
+    scroll-behavior: smooth;
+  }
+  
 
 .logo {
     font-size: 24px;
@@ -19,4 +14,356 @@ a:hover {
     letter-spacing: 4px;
 }
 
+.home {
+    background: url("../images/Background4.jpg") no-repeat center center;
+    background-size: cover;
+    height: 100vh;
+    position: relative;
+}
 
+.hero {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    justify-items: center;
+    text-align: center;
+    color: white;
+    width: 100%;  
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.527);
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    line-height: 1.5;
+    max-width: 600px;
+}
+
+.btn-primary {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #e63946;
+    color: white;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #c1272d;
+    opacity: 0.9;
+}
+
+.about {
+    background-color: #f5f5f5;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about h2 {
+    font-size: 2.5rem;
+    color: #23232e;
+    margin-bottom: 20px;
+}
+
+.about p {
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.how-it-works {
+    background: url("../images/How-Works.jpg") no-repeat center center;
+    background-size: cover; 
+    text-align: center;
+    padding: 80px 20px;
+    min-height: 92vh; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.how-it-works h2 {
+    font-size: 2.5rem;
+    color: #23232e;
+    margin-bottom: 40px;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.step {
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.step:hover {
+    transform: translateY(-5px);
+}
+
+.step img {
+    width: 60px;
+    margin-bottom: 20px;
+}
+
+.step h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.step p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* 📩 Contato & Newsletter */
+.contact {
+    text-align: center;
+    padding: 80px 20px;
+    background: #f5f5f5;
+}
+
+.contact h2 {
+    font-size: 2.5rem;
+    color: #23232e;
+    margin-bottom: 20px;
+}
+
+.contact-form, .newsletter {
+    max-width: 500px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-form input,
+.contact-form textarea,
+.newsletter input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.contact-form button,
+.newsletter button {
+    background: #e63946;
+    color: white;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.contact-form button:hover,
+.newsletter button:hover {
+    background: #c1272d;
+}
+
+/* 📌 Rodapé (Footer) */
+.footer {
+    background: #23232e;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.footer-links {
+    margin-bottom: 20px;
+}
+
+.footer-links a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: opacity 0.3s;
+}
+
+.footer-links a:hover {
+    opacity: 0.7;
+}
+
+.footer-social a {
+    margin: 0 10px;
+    color: white;
+    transition: opacity 0.3s;
+}
+
+.footer-social a:hover {
+    opacity: 0.7;
+}
+
+.footer p {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+/* 📌 Estilização das páginas internas */
+.sobre, .privacidade, .suporte {
+    text-align: center;
+    padding: 80px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.sobre h1, .privacidade h1, .suporte h1 {
+    font-size: 2.5rem;
+    color: #23232e;
+    margin-bottom: 20px;
+}
+
+.sobre h2, .privacidade h2, .suporte h2 {
+    font-size: 1.8rem;
+    color: #e63946;
+    margin-top: 30px;
+}
+
+.sobre p, .privacidade p, .suporte p {
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.suporte-form {
+    max-width: 500px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.suporte-form input,
+.suporte-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.suporte-form button {
+    background: #e63946;
+    color: white;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.suporte-form button:hover {
+    background: #c1272d;
+}
+
+/* 🎨 Estilização da seção de contato */
+/* 📩 Contato & Formulário */
+.contact {
+    background: url("../images/contact-bg.jpg") no-repeat center center;
+    background-size: cover;
+    padding: 100px 20px;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.contact h2 {
+    font-size: 2.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #23232e;
+}
+
+.contact p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    color: #444;
+}
+
+/* Formulário de Contato */
+.contact-form {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaçamento entre os campos */
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    background: white;
+}
+
+/* Ajustando o botão para ficar do mesmo tamanho que os inputs */
+.contact-form button {
+    width: 100%;  /* 🔥 Faz o botão ocupar 100% da largura do form */
+    background: #e63946;
+    color: white;
+    border: none;
+    padding: 14px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 8px; /* Mesmo arredondamento dos inputs */
+    transition: background 0.3s ease-in-out;
+}
+
+/* Efeito de hover */
+.contact-form button:hover {
+    background: #c1272d;
+}
+
+/* Mensagem de sucesso */
+.success-message {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #28a745;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}

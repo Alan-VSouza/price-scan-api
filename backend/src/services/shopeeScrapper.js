@@ -31,7 +31,7 @@ export const buscarPrecoShopee = async (produto) => {
     });
 
     console.log("🛍️ Produtos da Shopee com CloudScraper:", produtos.slice(0, 5));
-    return produtos.slice(0, 5);
+    return produtos.slice(0, 50);
   } catch (error) {
     console.error("❌ Erro no scraping da Shopee com CloudScraper:", error.message);
     return [];

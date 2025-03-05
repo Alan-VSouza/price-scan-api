@@ -7,22 +7,35 @@ export const getPreco = async (req, res) => {
         const { produto } = req.params;
         console.log(`🔍 Buscando preços para: ${produto}`);
 
-        const [mercadoLivre, amazon, shopee] = await Promise.allSettled([
+        res.setHeader("Content-Type", "application/json");
+        res.setHeader("Transfer-Encoding", "chunked"); // Ativa o streaming
+        res.write("[");
+
+        const sources = [
             buscarPrecoMercadoLivre(produto),
             buscarPrecoAmazon(produto),
-            buscarPrecoShopee(produto) // Aqui estava pegando Amazon de novo ❌
-        ]);
-
-        const resultados = [
-            ...(mercadoLivre.status === "fulfilled" ? mercadoLivre.value : []),
-            ...(amazon.status === "fulfilled" ? amazon.value : []),
-            ...(shopee.status === "fulfilled" ? shopee.value : []) // Correção aqui ✅
+            buscarPrecoShopee(produto),
         ];
 
-        res.json(resultados);
+        let firstItem = true;
+
+        for (const source of sources) {
+            try {
+                const produtos = await source;
+                for (const produto of produtos) {
+                    if (!firstItem) res.write(",");
+                    res.write(JSON.stringify(produto));
+                    firstItem = false;
+                }
+            } catch (err) {
+                console.error("❌ Erro ao buscar preços:", err.message);
+            }
+        }
+
+        res.write("]");
+        res.end();
     } catch (error) {
         console.error("❌ Erro ao buscar preços:", error.message);
         res.status(500).json({ erro: "Erro ao buscar preços" });
     }
 };
-

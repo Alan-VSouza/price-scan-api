@@ -1,46 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/navbar.css";
 
 const Navbar: React.FC = () => {
+    const [scrolled, setScrolled] = useState(false);
 
-    const [menuAtivo, setMenuAtivo] = useState(false);
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
+        };
 
-    const toggleMenu = () => {
-      setMenuAtivo(!menuAtivo);
-    };
-    
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     const navItems = [
-      { label: "Inicio", href: "/" },
-      { label: "Sobre", href: "/" },
-      { label: "Projetos", href: "/" },
-      { label: "Contatos", href: "/" },
+        { label: "Inicio", href: "/" },
+        { label: "Comparar", href: "/comparar" },
+        { label: "Sobre", href: "/sobre" },
+        { label: "Contatos", href: "/suporte" },
     ];
 
-    
-    return <header>
-        <nav className="nav">
-            <a className="logo" href="/">Simplify</a>
-            <div className={`mobile-menu ${menuAtivo ? "active" : ""}`} onClick={toggleMenu}>
-                <div className="line1"></div>
-                <div className="line2"></div>
-                <div className="line3"></div>
-            </div>
-            <ul className={`nav-list ${menuAtivo ? "active" : ""}`}>
-                {navItems.map((item, index) => (
-                    <li
-                        key={index}
-                        style={{
-                            animation: menuAtivo
-                                ? `navLinkFade 0.5s ease forwards ${(index + 1) * 0.2}s`
-                                : "",
-                        }}
-                    >
-                        <a href={item.href}>{item.label}</a>
-                    </li>
-                ))}
-            </ul>
-        </nav>
-    </header>
-}
+    return (
+        <header>
+            <nav className={`nav ${scrolled ? "scrolled" : ""}`}>
+                <a className="logo" href="/">Simplify</a>
+                <div className="mobile-menu">
+                    <div className="line1"></div>
+                    <div className="line2"></div>
+                    <div className="line3"></div>
+                </div>
+                <ul className="nav-list">
+                    {navItems.map((item, index) => (
+                        <li key={index}>
+                            <a href={item.href}>{item.label}</a>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+        </header>
+    );
+};
 
 export default Navbar;

@@ -1,18 +1,25 @@
 
 .nav {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: #23232e;
+    background-color: #000000d2;
     height: 8vh;
+    z-index: 1000;
+    transition: background 0.3s ease-in-out, position 0.3s ease-in-out;
 }
 
-main {
-    background: url("../images/Background.jpg") no-repeat center center;
-    background-size: cover;
-    height: 92vh;
+.nav.scrolled {
+    position: fixed;
+    background-color: #000000e0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
+
 
 .nav-list {
     list-style: none;
@@ -23,6 +30,20 @@ main {
     letter-spacing: 3px;
     margin-left: 32px;
 }
+
+a {
+    color: white;
+    text-decoration: none; 
+    transition: 0.3s;
+    display: inline-block;
+}
+
+a:hover {
+    color:#9c9c9c;
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+
 
 .mobile-menu {
     display: none;

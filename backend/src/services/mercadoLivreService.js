@@ -5,7 +5,7 @@ export const buscarPrecoMercadoLivre = async (produto) => {
         console.log(`🔍 Buscando no Mercado Livre: ${produto}`);
         const response = await axios.get(`https://api.mercadolibre.com/sites/MLB/search?q=${produto}`);
 
-        return response.data.results.slice(0, 5).map(item => {
+        return response.data.results.slice(0, 50).map(item => {
             const precoAVista = item.price ? `R$ ${item.price.toFixed(2)}` : "N/A";
             const precoParcelado = item.installments
                 ? `${item.installments.quantity}x de R$ ${item.installments.amount.toFixed(2)}`

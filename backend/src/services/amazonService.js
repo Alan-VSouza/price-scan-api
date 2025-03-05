@@ -71,7 +71,7 @@ export const buscarPrecoAmazon = async (produto, tentativas = 3) => {
     });
 
     console.log("📦 Produtos da Amazon:", produtos.slice(0, 5));
-    return produtos.slice(0, 5);
+    return produtos.slice(0, 50);
   } catch (error) {
     if (error.response && error.response.status === 503 && tentativas > 0) {
       console.warn(`⚠️ Amazon retornou 503. Tentando novamente (${tentativas} tentativas restantes)...`);

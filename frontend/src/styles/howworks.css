@@ -1,0 +1,82 @@
+/* howworks.css */
+
+.how-it-works {
+    background: url("../images/How-Works.jpg") no-repeat center center;
+    background-size: cover;
+    text-align: center;
+    padding: 80px 20px;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.how-it-works h2 {
+    font-size: 2.5rem;
+    color: #23232e;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.step {
+    background: #ffffffd7;
+    padding: 30px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step:hover {
+    transform: translateY(-5px);
+}
+
+.step svg {
+    margin-bottom: 15px;
+}
+
+.step h3 {
+    font-size: 1.5rem;
+    color: #23232e;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.step p {
+    font-size: 1rem;
+    color: #505050;
+    line-height: 1.5;
+}
+
+/* Botão */
+.btn-primary {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 12px 24px;
+    background-color: #e63946;
+    color: white;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background-color: #c1272d;
+}
