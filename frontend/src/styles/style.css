@@ -10,7 +10,6 @@ html {
 
 .logo {
     font-size: 24px;
-    text-transform: uppercase;
     letter-spacing: 4px;
 }
 
@@ -148,7 +147,6 @@ html {
     line-height: 1.5;
 }
 
-/* 📩 Contato & Newsletter */
 .contact {
     text-align: center;
     padding: 80px 20px;
@@ -196,7 +194,6 @@ html {
     background: #c1272d;
 }
 
-/* 📌 Rodapé (Footer) */
 .footer {
     background: #23232e;
     color: white;
@@ -235,7 +232,6 @@ html {
     font-size: 0.9rem;
 }
 
-/* 📌 Estilização das páginas internas */
 .sobre, .privacidade, .suporte {
     text-align: center;
     padding: 80px 20px;
@@ -246,7 +242,8 @@ html {
 .sobre h1, .privacidade h1, .suporte h1 {
     font-size: 2.5rem;
     color: #23232e;
-    margin-bottom: 20px;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 .sobre h2, .privacidade h2, .suporte h2 {
@@ -294,8 +291,6 @@ html {
     background: #c1272d;
 }
 
-/* 🎨 Estilização da seção de contato */
-/* 📩 Contato & Formulário */
 .contact {
     background: url("../images/contact-bg.jpg") no-repeat center center;
     background-size: cover;
@@ -318,13 +313,12 @@ html {
     color: #444;
 }
 
-/* Formulário de Contato */
 .contact-form {
     max-width: 500px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Espaçamento entre os campos */
+    gap: 15px;
 }
 
 .contact-form input,
@@ -338,9 +332,8 @@ html {
     background: white;
 }
 
-/* Ajustando o botão para ficar do mesmo tamanho que os inputs */
 .contact-form button {
-    width: 100%;  /* 🔥 Faz o botão ocupar 100% da largura do form */
+    width: 100%; 
     background: #e63946;
     color: white;
     border: none;
@@ -348,16 +341,14 @@ html {
     cursor: pointer;
     font-size: 1.1rem;
     font-weight: bold;
-    border-radius: 8px; /* Mesmo arredondamento dos inputs */
+    border-radius: 8px; 
     transition: background 0.3s ease-in-out;
 }
 
-/* Efeito de hover */
 .contact-form button:hover {
     background: #c1272d;
 }
 
-/* Mensagem de sucesso */
 .success-message {
     margin-top: 15px;
     font-size: 1rem;

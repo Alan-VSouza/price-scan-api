@@ -1,7 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-// Lista de User-Agents para evitar bloqueio
 const userAgents = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36",
@@ -10,13 +9,11 @@ const userAgents = [
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
 ];
 
-// Simula um atraso para evitar bloqueios
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const buscarPrecoAmazon = async (produto, tentativas = 3) => {
   try {
     console.log(`🔍 Buscando na Amazon: ${produto}`);
-
     const url = `https://www.amazon.com.br/s?k=${encodeURIComponent(produto)}`;
     const userAgent = userAgents[Math.floor(Math.random() * userAgents.length)];
 
@@ -27,7 +24,7 @@ export const buscarPrecoAmazon = async (produto, tentativas = 3) => {
         "Accept-Encoding": "gzip, deflate, br",
         "Connection": "keep-alive"
       },
-      timeout: 10000 // Tempo limite para evitar requisições demoradas
+      timeout: 10000
     });
 
     const $ = cheerio.load(data);
@@ -42,30 +39,38 @@ export const buscarPrecoAmazon = async (produto, tentativas = 3) => {
         link = `https://www.amazon.com.br${link}`;
       }
 
-      let precos = $(element)
-        .find(".a-price .a-offscreen")
-        .map((_, el) => $(el).text().trim().replace("R$", "").replace(",", "."))
-        .get();
+      const whole = $(element).find("span.a-price-whole").first().text().trim();
+      const fraction = $(element).find("span.a-price-fraction").first().text().trim();
+      let precoAVista = null;
+      if (whole) {
+        const priceStr = whole.replace(/\./g, "") + "." + (fraction || "00");
+        precoAVista = parseFloat(priceStr);
+      }
 
-      precos = [...new Set(precos)];
+      let precoParcelado = null;
+      const wholeParcel = $(element).find("span.a-price-whole").eq(1).text().trim();
+      const fractionParcel = $(element).find("span.a-price-fraction").eq(1).text().trim();
+      if (wholeParcel) {
+        const parcelStr = wholeParcel.replace(/\./g, "") + "." + (fractionParcel || "00");
+        precoParcelado = parseFloat(parcelStr);
+      }
 
-      let precoAVista = precos.length > 0 ? `R$ ${precos[0]}` : "N/A";
-      let precoParcelado = precos.length > 1 ? `${precos[1]} no total` : "";
-
-      if (!precoParcelado && precoAVista !== "N/A") {
-        const precoNumero = parseFloat(precos[0]);
-        if (!isNaN(precoNumero)) {
-          precoParcelado = `10x de R$ ${(precoNumero / 10).toFixed(2)}`;
+      if (precoAVista !== null) {
+        if (precoParcelado === null || precoParcelado < precoAVista) {
+          precoParcelado = parseFloat((precoAVista / 10).toFixed(2));
         }
       }
 
-      if (titulo && precoAVista !== "N/A") {
+      if (titulo && precoAVista !== null) {
         produtos.push({
           nome: titulo,
-          preco: { avista: precoAVista, parcelado: precoParcelado },
+          preco: {
+            avista: `R$ ${precoAVista.toFixed(2)}`,
+            parcelado: `R$ ${precoParcelado.toFixed(2)} no total`
+          },
           loja: "Amazon",
           link: link || "#",
-          imagem: imagem || "https://via.placeholder.com/150",
+          imagem: imagem || "https://via.placeholder.com/150"
         });
       }
     });
@@ -75,7 +80,7 @@ export const buscarPrecoAmazon = async (produto, tentativas = 3) => {
   } catch (error) {
     if (error.response && error.response.status === 503 && tentativas > 0) {
       console.warn(`⚠️ Amazon retornou 503. Tentando novamente (${tentativas} tentativas restantes)...`);
-      await delay(10000); // Aguardar 10 segundos antes de tentar novamente
+      await delay(10000);
       return buscarPrecoAmazon(produto, tentativas - 1);
     }
 

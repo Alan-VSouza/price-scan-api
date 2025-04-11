@@ -1,41 +1,31 @@
 import { buscarPrecoAmazon } from "../services/amazonService.js";
 import { buscarPrecoMercadoLivre } from "../services/mercadoLivreService.js";
-import { buscarPrecoShopee } from "../services/shopeeScrapper.js";
 
 export const getPreco = async (req, res) => {
-    try {
-        const { produto } = req.params;
-        console.log(`🔍 Buscando preços para: ${produto}`);
+  try {
+    const { produto } = req.params;
+    console.log(`🔍 Buscando preços para: ${produto}`);
 
-        res.setHeader("Content-Type", "application/json");
-        res.setHeader("Transfer-Encoding", "chunked"); // Ativa o streaming
-        res.write("[");
+    const [mercadoLivre, amazon] = await Promise.allSettled([
+      buscarPrecoMercadoLivre(produto, 'zKkL8r9VFODF0eX4IhOCIz3eTfChLqdt'),
+      buscarPrecoAmazon(produto),
+    ]);
 
-        const sources = [
-            buscarPrecoMercadoLivre(produto),
-            buscarPrecoAmazon(produto),
-            buscarPrecoShopee(produto),
-        ];
+    const resultados = [
+      ...(mercadoLivre.status === "fulfilled" ? mercadoLivre.value : []),
+      ...(amazon.status === "fulfilled" ? amazon.value : []),
+    ];
 
-        let firstItem = true;
-
-        for (const source of sources) {
-            try {
-                const produtos = await source;
-                for (const produto of produtos) {
-                    if (!firstItem) res.write(",");
-                    res.write(JSON.stringify(produto));
-                    firstItem = false;
-                }
-            } catch (err) {
-                console.error("❌ Erro ao buscar preços:", err.message);
-            }
-        }
-
-        res.write("]");
-        res.end();
-    } catch (error) {
-        console.error("❌ Erro ao buscar preços:", error.message);
-        res.status(500).json({ erro: "Erro ao buscar preços" });
+    if (mercadoLivre.status === "rejected") {
+      console.error("❌ Erro ao buscar preços no Mercado Livre:", mercadoLivre.reason);
     }
+    if (amazon.status === "rejected") {
+      console.error("❌ Erro ao buscar preços na Amazon:", amazon.reason);
+    }
+
+    res.json(resultados);
+  } catch (error) {
+    console.error("❌ Erro ao buscar preços:", error.message);
+    res.status(500).json({ erro: "Erro ao buscar preços" });
+  }
 };

@@ -4,6 +4,7 @@ import LandingPage from "@pages/LandingPage";
 import Sobre from "@pages/Sobre";
 import Suporte from "@pages/Suporte";
 import ComparePage from "@pages/ComparePage";
+import PrivacyPolicy from "@pages/PrivacyPolicy";
 function App() {
   return (
     <Router>
@@ -13,6 +14,7 @@ function App() {
           <Route path="/sobre" element={<Sobre />} />
           <Route path="/suporte" element={<Suporte />} />
           <Route path="/comparar" element={<ComparePage />} />
+          <Route path="/privacidade" element={<PrivacyPolicy />} />
         </Route>
       </Routes>
     </Router>

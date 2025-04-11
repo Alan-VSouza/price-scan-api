@@ -1,0 +1,9 @@
+[build]
+  publish = "frontend/dist"       
+  functions = "backend/src/services"  
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true

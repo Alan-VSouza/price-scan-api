@@ -18,8 +18,9 @@ const LandingPage: React.FC = () => {
             Bem-vindo ao <strong>SIMPLIFY</strong>
           </h1>
           <p>
-            Encontre o menor preço em segundos! <br/>O <strong>SIMPLIFY</strong> compara os melhores valores para você economizar sem esforço.  
+            Encontre ferramentas e apps úteis em segundos! <br/>O <strong>SIMPLIFY</strong> reúne as melhores soluções para você simplificar sua vida com facilidade.
           </p>
+
           <a href="#How-works" className="btn-primary">Como funciona</a>
         </div>
       </div>

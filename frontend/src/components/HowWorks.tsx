@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaSearch, FaChartBar, FaShoppingCart } from "react-icons/fa";
-import "../styles/howworks.css"; // 🔄 Importando o CSS separado
+import "../styles/howworks.css"; 
 
 const HowWorks: React.FC = () => {
   return (
