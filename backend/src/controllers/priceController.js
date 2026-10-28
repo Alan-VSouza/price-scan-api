@@ -7,7 +7,7 @@ export const getPreco = async (req, res) => {
     console.log(`🔍 Buscando preços para: ${produto}`);
 
     const [mercadoLivre, amazon] = await Promise.allSettled([
-      buscarPrecoMercadoLivre(produto, 'zKkL8r9VFODF0eX4IhOCIz3eTfChLqdt'),
+      buscarPrecoMercadoLivre(produto, process.env.ML_ACCESS_TOKEN),
       buscarPrecoAmazon(produto),
     ]);
 
