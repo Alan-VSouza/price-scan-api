@@ -1,5 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchPrices } from "../api/FetchPrices";
+import { fetchPrices, Produto } from "../api/FetchPrices";
+
+interface ProductsState {
+  list: Produto[];
+  status: "idle" | "loading" | "failed";
+}
+
+const initialState: ProductsState = { list: [], status: "idle" };
 
 export const fetchProducts = createAsyncThunk("products/fetch", async (produto: string) => {
   return await fetchPrices(produto);
@@ -7,7 +14,7 @@ export const fetchProducts = createAsyncThunk("products/fetch", async (produto: 
 
 const productsSlice = createSlice({
   name: "products",
-  initialState: { list: [], status: "idle" },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder

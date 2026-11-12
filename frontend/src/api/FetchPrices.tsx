@@ -2,21 +2,45 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5000/api";
 
-export const fetchPrices = async (produto: string) => {
+export interface Produto {
+  nome: string;
+  /** Numeric cash price, used for sorting. */
+  valor: number | null;
+  preco: { avista: string; parcelado: string | null };
+  loja: string;
+  link: string;
+  imagem: string | null;
+}
+
+interface ProdutoApi {
+  nome?: string;
+  valor?: number;
+  preco?: { avista?: string; parcelado?: string | null };
+  loja?: string;
+  link?: string;
+  imagem?: string | null;
+}
+
+const isHttpUrl = (value?: string | null): value is string => !!value && value.startsWith("http");
+
+export const fetchPrices = async (produto: string): Promise<Produto[]> => {
   try {
-    const response = await axios.get(`${API_URL}/preco/${produto}`);
+    const response = await axios.get<ProdutoApi[]>(`${API_URL}/preco/${encodeURIComponent(produto)}`);
 
-    console.log("📦 Produtos recebidos no frontend:", response.data);
-
-    return response.data.map((item: any) => ({
+    return response.data.map((item) => ({
       nome: item.nome || "Produto sem nome",
-      preco: item.preco || "Preço não disponível",
+      valor: typeof item.valor === "number" ? item.valor : null,
+      preco: {
+        avista: item.preco?.avista || "Preço não disponível",
+        parcelado: item.preco?.parcelado ?? null,
+      },
       loja: item.loja || "Desconhecido",
-      link: item.link && item.link.startsWith("http") ? item.link : "#", // 🔄 Evita links quebrados
-      imagem: item.imagem && item.imagem.startsWith("http") ? item.imagem : "https://via.placeholder.com/250"
+      link: isHttpUrl(item.link) ? item.link : "#", // evita links quebrados
+      imagem: isHttpUrl(item.imagem) ? item.imagem : null,
     }));
-  } catch (error: any) {
-    console.error("❌ Erro ao buscar preços:", error.response ? error.response.data : error.message);
-    return [];
+  } catch (error) {
+    const detail = axios.isAxiosError(error) ? error.response?.data ?? error.message : error;
+    console.error("❌ Erro ao buscar preços:", detail);
+    throw error;
   }
 };

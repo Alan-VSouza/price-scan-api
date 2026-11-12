@@ -1,17 +1,24 @@
 import React from "react";
+import type { Produto } from "../api/FetchPrices";
 
-interface ProductProps {
-  nome: string;
-  preco: { avista: string; parcelado: string };
-  loja: string;
-  link: string;
-  imagem: string;
-}
+// Inline placeholder (the old via.placeholder.com service is offline).
+const PLACEHOLDER =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="250" height="250"><rect width="100%" height="100%" fill="#e5e7eb"/><text x="50%" y="50%" fill="#6b7280" font-family="sans-serif" font-size="16" text-anchor="middle" dominant-baseline="middle">Sem imagem</text></svg>'
+  );
 
-const ProductCard: React.FC<ProductProps> = ({ nome, preco, loja, link, imagem }) => {
+const ProductCard: React.FC<Produto> = ({ nome, preco, loja, link, imagem }) => {
   return (
     <div className="product-card">
-      <img src={imagem} alt={nome} />
+      <img
+        src={imagem ?? PLACEHOLDER}
+        alt={nome}
+        loading="lazy"
+        onError={(e) => {
+          e.currentTarget.src = PLACEHOLDER;
+        }}
+      />
       <h3>{nome}</h3>
       <p className="loja">{loja}</p>
 

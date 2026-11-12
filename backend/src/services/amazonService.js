@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
+import { formatBRL } from "./format.js";
 
 const userAgents = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
@@ -47,35 +48,21 @@ export const buscarPrecoAmazon = async (produto, tentativas = 3) => {
         precoAVista = parseFloat(priceStr);
       }
 
-      let precoParcelado = null;
-      const wholeParcel = $(element).find("span.a-price-whole").eq(1).text().trim();
-      const fractionParcel = $(element).find("span.a-price-fraction").eq(1).text().trim();
-      if (wholeParcel) {
-        const parcelStr = wholeParcel.replace(/\./g, "") + "." + (fractionParcel || "00");
-        precoParcelado = parseFloat(parcelStr);
-      }
-
-      if (precoAVista !== null) {
-        if (precoParcelado === null || precoParcelado < precoAVista) {
-          precoParcelado = parseFloat((precoAVista / 10).toFixed(2));
-        }
-      }
-
-      if (titulo && precoAVista !== null) {
+      // The second price on a result card is usually the crossed-out list price, not an
+      // installment plan, so no installment value is shown for Amazon.
+      if (titulo && precoAVista !== null && !Number.isNaN(precoAVista)) {
         produtos.push({
           nome: titulo,
-          preco: {
-            avista: `R$ ${precoAVista.toFixed(2)}`,
-            parcelado: `R$ ${precoParcelado.toFixed(2)} no total`
-          },
+          valor: precoAVista,
+          preco: { avista: formatBRL(precoAVista), parcelado: null },
           loja: "Amazon",
           link: link || "#",
-          imagem: imagem || "https://via.placeholder.com/150"
+          imagem: imagem || null
         });
       }
     });
 
-    console.log("📦 Produtos da Amazon:", produtos.slice(0, 5));
+    console.log(`📦 Amazon: ${produtos.length} produtos`);
     return produtos.slice(0, 50);
   } catch (error) {
     if (error.response && error.response.status === 503 && tentativas > 0) {

@@ -25,7 +25,22 @@ cp .env.example .env   # set ML_ACCESS_TOKEN
 npm start
 ```
 
-The API listens on http://localhost:5000 and exposes `GET /api/preco/:produto`.
+The API listens on http://localhost:5000 and exposes `GET /api/preco/:produto`, which returns:
+
+```json
+[
+  {
+    "nome": "Product title",
+    "valor": 1999.99,
+    "preco": { "avista": "R$ 1.999,99", "parcelado": "12x de R$ 183,25" },
+    "loja": "Mercado Livre",
+    "link": "https://...",
+    "imagem": "https://..."
+  }
+]
+```
+
+`valor` is the numeric cash price used for sorting. `parcelado` is only filled when the store returns a real installment plan (Mercado Livre's `installments`); it is `null` otherwise, so the app never shows made-up installments.
 
 **2. Front-end**
 

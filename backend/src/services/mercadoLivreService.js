@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as cheerio from "cheerio";
+import { formatBRL } from "./format.js";
 
 const userAgents = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
@@ -28,20 +28,24 @@ export const buscarPrecoMercadoLivre = async (produto, accessToken, tentativas =
       timeout: 10000
     });
 
-    console.log("📄 Dados recebidos do Mercado Livre:", data);  
+    const produtos = data.results.map(item => {
+      // Use the installment plan the API actually returns instead of assuming 10x.
+      const parcelas = item.installments;
+      const parcelado = parcelas?.quantity && parcelas?.amount
+        ? `${parcelas.quantity}x de ${formatBRL(parcelas.amount)}${parcelas.rate === 0 ? " sem juros" : ""}`
+        : null;
 
-    const produtos = data.results.map(item => ({
-      nome: item.title,
-      preco: {
-        avista: `R$ ${item.price.toFixed(2)}`,
-        parcelado: item.installments ? `10x de R$ ${(item.price / 10).toFixed(2)}` : null
-      },
-      loja: "Mercado Livre",
-      link: item.permalink,
-      imagem: item.thumbnail || "https://via.placeholder.com/150"
-    }));
+      return {
+        nome: item.title,
+        valor: item.price,
+        preco: { avista: formatBRL(item.price), parcelado },
+        loja: "Mercado Livre",
+        link: item.permalink,
+        imagem: item.thumbnail || null
+      };
+    });
 
-    console.log("📦 Produtos do Mercado Livre:", produtos.slice(0, 5)); 
+    console.log(`📦 Mercado Livre: ${produtos.length} produtos`);
     return produtos.slice(0, 50);
 
   } catch (error) {
